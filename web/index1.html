@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Form Page</title>
+        <script type="text/javascript" src="test.js"></script>
+    
+    </head>
+    <body>
+        
+        <h2>Register user</h2>
+            <div><form action="webresources/model.users/" method="post">
+                Username:<br>
+                <input type="text" name="username">
+                <br>
+                Password:<br>
+                <input type="password" name="password" >
+                <br>
+                <input type="submit" value="Submit">
+                </form></div>
+        <br>
+        
+        <h2>User Log in</h2>
+                        <div>
+                        <input type="text" id="username" placeholder="username" />
+                        <br>
+                        <input type="password" id="password" placeholder="password"/>
+                        <br>
+                        <button id="logincheck" type="button" >Login</button>	
+                    </div>
+         
+        <br>
+        
+        <h2>Create New Tag</h2>
+            <div><form action="webresources/model.tag/" method="post">
+                    Tag:<br>
+                    <input type="text" name="newtag">
+                    <br>
+                    <input type="submit" value="Submit">
+                </form></div>
+        <br>
+        
+        <h2>Upload a File</h2>
+
+        <form action="Push" method="post" enctype="multipart/form-data">
+
+            <p>
+                Select a file : <input type="file" name="file" />
+            </p>
+
+            <input type="submit" value="Upload It" />
+        </form>
+        
+        <script>
+            
+   
+    
+    
+    function userLogin(username, password) {
+    //alert("In method User " + username + " pass " + password);
+    $.ajax({
+        type: "GET",
+        url: "http://192.168.56.1:8080/ImgUpload5/webresources/model.users/userLogin/" + username + "/" + password,
+        dataType: "text",
+        success: function (response) {
+            if (response == "false") {
+                alert("uname or pass wrong");
+            }
+            else {
+                alert("User: " + username + "has logged in");
+                localStorage.setItem('loggedin', true);
+                localStorage.setItem('user', response);
+                //$('#logInMod').modal('hide');
+            }
+        }
+    });}
+
+         $('#logincheck').click(function () {
+        username = $("#username").val();
+        password = $("#password").val();
+        //alert("Username " + username + " password " + password);
+        userLogin(username, password);
+
+        logged = true;
+    });     </script> 
+        
+    </body>
+</html>
