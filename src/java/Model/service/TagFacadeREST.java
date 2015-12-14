@@ -45,7 +45,7 @@ public class TagFacadeREST extends AbstractFacade<Tag> {
         newTag.setName(newtag);
         
         super.create(newTag);
-        return "New tag "+newtag+ " has been created";
+        return "New tag " +newtag+ " has been created";
     }
 
     @PUT

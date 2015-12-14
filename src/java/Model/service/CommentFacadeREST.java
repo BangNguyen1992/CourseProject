@@ -6,18 +6,22 @@
 package Model.service;
 
 import Model.Comment;
+import Model.Image;
+import Model.Users;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -33,12 +37,30 @@ public class CommentFacadeREST extends AbstractFacade<Comment> {
         super(Comment.class);
     }
 
+//    @POST
+//    @Override
+//    @Consumes({"application/xml", "application/json"})
+//    public void create(Comment entity) {
+//        super.create(entity);
+//    }
+    
     @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Comment entity) {
-        super.create(entity);
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    //@Consumes("application/x-www-form-urlencoded")
+    //@Produces("text/plain")
+    public String createComment(
+            @FormParam("username") int id,
+            @FormParam("imgid") int imgid,
+            @FormParam("text") String text
+            ) {
+        Users u = (Users) em.createNamedQuery("Users.findById").setParameter("username", id).getSingleResult();
+        Image i = (Image) em.createNamedQuery("Image.findByImgid").setParameter("imgid", imgid).getSingleResult();
+        Comment comment = new Comment(u,i,text);
+        comment.setText(text);
+        super.create(comment);
+        return "haha";
     }
+    
 
     @PUT
     @Path("{id}")

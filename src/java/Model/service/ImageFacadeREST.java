@@ -6,8 +6,16 @@
 package Model.service;
 
 import Model.Image;
+import static java.lang.System.out;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -27,9 +35,12 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("model.image")
 public class ImageFacadeREST extends AbstractFacade<Image> {
+
     @PersistenceContext(unitName = "ImgUpload5PU")
     private EntityManager em;
     private String[] galleryImages = new String[6];
+    private ArrayList<String> viewImages;
+    private List<Image> imageQuery;
 
     public ImageFacadeREST() {
         super(Image.class);
@@ -83,6 +94,30 @@ public class ImageFacadeREST extends AbstractFacade<Image> {
         return String.valueOf(super.count());
     }
 
+    @GET
+    @Path("viewimages")
+    @Produces("text/html")
+    public String viewImages() {
+        // save the results in a list
+        List<Image> images = em.createNamedQuery("Image.findAll").getResultList();
+        // create a new arraylist
+        viewImages = new ArrayList();
+        // add images into the arrayList
+        for (Image i : images) {
+            if (i.getPath().endsWith("jpg") || i.getPath().endsWith("png") || i.getPath().endsWith("JPG") || i.getPath().endsWith("PNG")) {
+                viewImages.add("Picture title " + i.getPath() + "<br>" + "<img src=\"http://192.168.56.1/test/" + i.getPath() + "\" height=\"200\" width=\"200\"><br>");
+                viewImages.add("Image ID: "+ i.getImgid() + "<br>");
+                viewImages.add("Date Upload: "+ i.getUploaddate()+"<br>");
+                viewImages.add("Comment: "+ i.getDescription()+"<br>");
+            } else {
+                viewImages.add("Found upload with title " + i.getPath() + " that is not an image <br>.");
+            }
+        }
+        
+        // return the ArrayList with the html tags
+        return viewImages.toString();
+    }
+    
     
     @GET
     @Path("viewgallery")
@@ -90,36 +125,53 @@ public class ImageFacadeREST extends AbstractFacade<Image> {
     @Produces({MediaType.APPLICATION_XML})
     public List<Image> viewGallery() {
         // save the results in a list
-        List<Image> image = em.createNamedQuery("Image.findAll").setMaxResults(6).getResultList();
-
+        List<Image> image = em.createNamedQuery("Image.findAll").getResultList();
+        
         // proceed
         int b;
-        b = image.size()-1;
+        b = image.size() - 1;
         int a = 0;
-        for(int index = b; index >= b-5; index--){
-            if(image.get(index)==null){
+        for (int index = 0; index <= 5; index++) {
+            if (image.get(index) == null) {
                 return image;
             }
-            galleryImages[a]=(image.get(index)).getPath();
-           
+            galleryImages[a] = (image.get(index)).getPath();
+
             a++;
-//            for (Image i: image){
+
+        }
+        //            for (Image i: image){
 //            if (i.getPath().endsWith("jpg") || i.getPath().endsWith("png") ||i.getPath().endsWith("JPG")) {
 //                galleryImages.add("Picture title " + i.getPath() + "<br>" + "<img src=\"http://192.168.56.1/test/" + i.getPath() + "\" height=\"200\" width=\"200\"><br>");
 //            } else {
 //                galleryImages.add("Found upload with title " + i.getPath() + " that is not an image <br>.");
 //            }
 //        }
-        }
-        // return the ArrayList with the html tags
+        Collections.sort(image,new Comparator<Image>(){
+                     public int compare(Image i1,Image i2){
+                            return i2.getImgid() - i1.getImgid();
+                     }});
         return image;
-        
+
+    }
+
+    
+     @GET
+    @Path("findImageByTitle/{path}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public List<Image> findImageByName(
+            @PathParam("path") String path) {
+       this.imageQuery = em.createNamedQuery("Image.findByPath").setParameter("path", "%" + path + "%").getResultList();
+                       
+        // return the ArrayList with the html tags
+        return this.imageQuery;
     }
         
-      
+    
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }

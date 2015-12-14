@@ -37,13 +37,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
-    //@NamedQuery(name=  "Image.getGallery", query="SELECT i FROM Image i GROUP BY imgid ORDER BY imgid DESC LIMIT 6"),
+//    @NamedQuery(name=  "Image.getGallery", query="SELECT i FROM Image i GROUP BY i.imgid ORDER BY i.imgid DESC LIMIT 6"),
     @NamedQuery(name = "Image.findByImgid", query = "SELECT i FROM Image i WHERE i.imgid = :imgid"),
-    @NamedQuery(name = "Image.findByPath", query = "SELECT i FROM Image i WHERE i.path = :path"),
+    @NamedQuery(name = "Image.findByPath", query = "SELECT i FROM Image i WHERE i.path LIKE :path"),
     @NamedQuery(name = "Image.findByFilesize", query = "SELECT i FROM Image i WHERE i.filesize = :filesize"),
     @NamedQuery(name = "Image.findByUploaddate", query = "SELECT i FROM Image i WHERE i.uploaddate = :uploaddate"),
     @NamedQuery(name = "Image.findByDescription", query = "SELECT i FROM Image i WHERE i.description = :description"),
-    @NamedQuery(name = "Image.findByTitle", query = "SELECT i FROM Image i WHERE i.title = :title")})
+    @NamedQuery(name = "Image.findByTitleView", query="SELECT i FROM Image i WHERE i.path LIKE ?1 ORDER BY i.imgid ASC")})
+
     //@NamedQuery(name = "Image.findByTitle", query = "SELECT i FROM Image i GROUP BY imgid ORDER BY imgid DESC LIMIT 6 WHERE i.title = :title")})
     
     public class Image implements Serializable {
@@ -101,7 +102,7 @@ import javax.xml.bind.annotation.XmlTransient;
         this.path = path;
         this.uploaddate = uploaddate;
         this.filesize = filesize;
-        this.owner = owner;
+        //this.owner = owner;
     }
     
     public Image(Integer imgid) {

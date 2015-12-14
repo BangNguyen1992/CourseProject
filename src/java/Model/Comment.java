@@ -51,16 +51,31 @@ public class Comment implements Serializable {
     @Column(name = "TIMESTAMPT")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestampt;
+    
     @JoinColumn(name = "WRITER", referencedColumnName = "ID")
     @ManyToOne
     private Users writer;
+    
     @JoinColumn(name = "IMG", referencedColumnName = "IMGID")
     @ManyToOne
     private Image img;
 
-    public Comment() {
+     public Comment() {
+        
     }
 
+    
+    public Comment(String text) {
+        this.text = text;
+    }
+
+    public Comment(Users id, Image imgid, String text){
+        this.writer = id;
+        this.img = imgid;
+        this.text = text;
+        
+    }
+    
     public Comment(Integer cmtid) {
         this.cmtid = cmtid;
     }

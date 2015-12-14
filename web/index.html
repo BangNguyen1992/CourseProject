@@ -15,6 +15,7 @@
 
         <!-- Custom CSS -->
         <link href="css/agency.css" rel="stylesheet">
+        <link href="css/lightbox.css" rel="stylesheet">
 
         <!-- Custom Fonts -->
 
@@ -23,6 +24,8 @@
         <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+        
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -81,9 +84,9 @@
                                         <div class="col-md-12">
                                             <form role="search">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Search">
+                                                    <input id="search" type="text" class="form-control" placeholder="Search">
                                                 </div>
-                                                <button type="submit" class="btn btn-default">Submit</button>
+                                                <button id="searchSubmit" type="submit" class="btn btn-primary btn-block">Submit</button>
                                             </form>
                                         </div>
                                     </div>
@@ -164,12 +167,14 @@
 
                     <div class="intro-heading">"YOU DON'T TAKE A PHOTOGRAPH, YOU MAKE IT!"</div>
                     <p class>-Ansel Adam-</p>
-
-
-                    <form id="uploadForm">
-                        <label class="label-upload" for="upload">Upload</label>
-                        <input type="file" id="upload" name="file">
-                    </form>
+                        <form id="uploadForm" class="col-lg-12 col-md-4">
+                            <div id="blankBox">
+                                <input class="textInput" type="text" name="tagName" placeholder="Give your photo some tags">
+                                <input class="form-control textInput" id="description" name="description" placeholder="Type some description">
+                            </div>
+                            <label class="label-upload btn btn-xl" for="upload">Upload</label>
+                            <input type="file" id="upload" name="file">
+                        </form>
                 </div>
             </div>
         </header>
@@ -181,92 +186,95 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <h2 class="section-heading">Gallery</h2>
-                        <h3 class="section-subheading text-muted">-You can see what other is doing-</h3>
+                        <h3 class="section-subheading text-muted" style="margin-bottom:0">-You can see what other is doing-</h3>
+                        <ul id="gallery-pagination" class="pagination-sm"></ul>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 portfolio-item">
-                        <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <i class="fa fa-plus fa-3x"></i>
+                <div class="gallery">    
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 portfolio-item" id="div1">
+                            <a id="link1" href="#portfolioModal1" class="portfolio-link" data-toggle="modal" data-title="Something here" data-lightbox="Vacation">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content">
+                                        
+                                    </div>
                                 </div>
+                                <img id="img1" src="img/photo/a.jpg" class="img-responsive">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4>Description</h4>
+                                <p class="text-muted">Tags will be here</p>
                             </div>
-                            <img id="img1" src="img/photo/a.jpg" class="img-responsive" alt="">
-                        </a>
-                        <div class="portfolio-caption">
-                            <h4>Round Icons</h4>
-                            <p class="text-muted">Graphic Design</p>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 portfolio-item">
-                        <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <i class="fa fa-plus fa-3x"></i>
+                        <div class="col-md-4 col-sm-6 portfolio-item" id="div2">
+                            <a id="link2" href="#portfolioModal2" class="portfolio-link" data-toggle="modal" data-title="Something here" data-lightbox="Vacation">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content">
+                                        
+                                    </div>
                                 </div>
+                                <img id="img2" src="img/photo/c.jpg" class="img-responsive">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4>Description</h4>
+                                <p class="text-muted">Tags will be here</p>
                             </div>
-                            <img id="img2" src="img/photo/c.jpg" class="img-responsive" alt="">
-                        </a>
-                        <div class="portfolio-caption">
-                            <h4>Startup Framework</h4>
-                            <p class="text-muted">Website Design</p>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 portfolio-item">
-                        <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <i class="fa fa-plus fa-3x"></i>
+                        <div class="col-md-4 col-sm-6 portfolio-item" id="div3">
+                            <a id="link3" href="#portfolioModal3" class="portfolio-link" data-toggle="modal" data-title="Something here" data-lightbox="Vacation">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content">
+                                        
+                                    </div>
                                 </div>
+                                <img id="img3" src="img/photo/c.jpg" class="img-responsive">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4>Description</h4>
+                                <p class="text-muted">Tags will be here</p>
                             </div>
-                            <img id="img3" src="img/photo/c.jpg" class="img-responsive" alt="">
-                        </a>
-                        <div class="portfolio-caption">
-                            <h4>Treehouse</h4>
-                            <p class="text-muted">Website Design</p>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 portfolio-item">
-                        <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <i class="fa fa-plus fa-3x"></i>
+                        <div class="col-md-4 col-sm-6 portfolio-item" id="div4">
+                            <a id="link4" href="#portfolioModal4" class="portfolio-link" data-toggle="modal" data-title="Something here" data-lightbox="Vacation">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content">
+                                        
+                                    </div>
                                 </div>
+                                <img id="img4" src="img/photo/d.jpg" class="img-responsive">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4>Description</h4>
+                                <p class="text-muted">Tags will be here</p>
                             </div>
-                            <img id="img4" src="img/photo/d.jpg" class="img-responsive" alt="">
-                        </a>
-                        <div class="portfolio-caption">
-                            <h4>Golden</h4>
-                            <p class="text-muted">Website Design</p>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 portfolio-item">
-                        <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <i class="fa fa-plus fa-3x"></i>
+                        <div class="col-md-4 col-sm-6 portfolio-item" id="div5">
+                            <a id="link5" href="#portfolioModal5" class="portfolio-link" data-toggle="modal" data-title="Something here" data-lightbox="Vacation">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content">
+                                        
+                                    </div>
                                 </div>
+                                <img id="img5" src="img/photo/h.jpg" class="img-responsive">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4>Description</h4>
+                                <p class="text-muted">Tags will be here</p>
                             </div>
-                            <img id="img5" src="img/photo/h.jpg" class="img-responsive" alt="">
-                        </a>
-                        <div class="portfolio-caption">
-                            <h4>Escape</h4>
-                            <p class="text-muted">Website Design</p>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 portfolio-item">
-                        <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <i class="fa fa-plus fa-3x"></i>
+                        <div class="col-md-4 col-sm-6 portfolio-item" id="div6">
+                            <a id="link6" href="#portfolioModal6" class="portfolio-link" data-toggle="modal" data-title="Something here" data-lightbox="Vacation">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content">
+                                        
+                                    </div>
                                 </div>
+                                <img id="img6" src="img/photo/f.jpg" class="img-responsive">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4>Description</h4>
+                                <p class="text-muted">Tags will be here</p>
                             </div>
-                            <img id="img6" src="img/photo/f.jpg" class="img-responsive" alt="">
-                        </a>
-                        <div class="portfolio-caption">
-                            <h4>Dreams</h4>
-                            <p class="text-muted">Website Design</p>
                         </div>
                     </div>
                 </div>
@@ -296,6 +304,11 @@
 
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
+        <script src="js/jquery.twbsPagination.js"></script>
+        <script src="js/jquery.twbsPagination.min.js"></script>
+        <script src="js/jquery.xml2json.js"></script>        
+        <script src="js/jquery.hideseek.js"></script>
+
 
         <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.min.js"></script>
@@ -311,21 +324,83 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="js/agency.js"></script>
+        
+        <!--Lightbox-->
+        <script src="js/lightbox.js"></script>
+        
         <script>
+             var images, numOfPage,currentPage;
+             var divs = ["#div1", "#div2", "#div3", "#div4", "#div5", "#div6"]; //thumbnail
+             var links = ["#link1", "#link2", "#link3", "#link4", "#link5", "#link6"]; //lightbox
+            function retrieveImgsByPage(curPage,images){
+                if(images.length>6){
+                    var start = 6*(curPage-1);
+                    var end = start+6;
+     
+                    var images = images.slice(start,end);
+                    
+                        loadMore(images);
+                    }else{
+                       
+                        loadMore(images);
+                    }
+                    if(images.length!==0){
+
+                        if(images.length<6){
+                            for(var i=images.length;i<6;i++){
+                                $(divs[i]).hide();
+                            }
+
+                        }else{
+                            for(var i=0;i<6;i++){
+                                $(divs[i]).show();
+                            }
+                        }
+                    }
+                   
+                }
+                
+                function loadMore(list){
+                    var k=0, a=0, l=0;
+                    console.log(list);
+                    list.forEach(function(img){
+                        var desc = img.description;
+                        var path = "http://192.168.56.1/test/" + img.path;
+     
+                        $(divs[a++]+" h4").text(desc);
+                        $(links[k++]+" img").attr('src', path);
+                        $(divs[l++]+" a").attr('href', path).attr('data-title', path);
+                    });
+                    
+                }
+                function findNumOfPage(images){
+                    var result=0;
+                    for(i in images){
+                        result++;
+                    }
+                    return Math.ceil(result/6);
+                }
 
             $(document).ready(function () {
+           
                 $.ajax({
                     url: 'webresources/model.image/viewgallery',
                     type: 'GET',
                     dataType: 'xml',
                     cache: false,
                     success: function (returnedXMLResponse) {
-                        divs = ["#img1", "#img2", "#img3", "#img4", "#img5", "#img6"];
-                        i = 0;
-                        $('image', returnedXMLResponse).each(function () {
-                            path = "http://192.168.56.1/test/" + $('path', this).text();
-                            $(divs[i++]).attr('src', path);
-                            console.log(path);
+                        imgs = ["#img1", "#img2", "#img3", "#img4", "#img5", "#img6"];
+                        images = $.xml2json(returnedXMLResponse).image;
+                        console.log(images);
+                        numOfPage = findNumOfPage(images);
+                        retrieveImgsByPage(0,images);
+                        $("#gallery-pagination").twbsPagination({
+                            totalPages: numOfPage,
+                            visiblePages: 3,
+                            hrefVariable: '{{pageNumber}}',
+                            onPageClick: function (event, page) {
+                                retrieveImgsByPage(page,images);
+                            }
                         });
                     },
                     error: function (data) {
@@ -354,14 +429,19 @@
                         processData: false,
                         success: function (data) {
                             alert("File uploaded successfully!");
+                            location.reload();
                         },
                         error: function (data) {
                             alert("File failed to upload!");
                         }
                     });
+                    
 
                     return false;
                 });
+                
+                
+
             });
         </script>
         <script>
@@ -372,7 +452,7 @@
                     url: "http://192.168.56.1:8080/ImgUpload5/webresources/model.users/userLogin/" + username + "/" + password,
                     dataType: "text",
                     success: function (response) {
-                        if (response == "false") {
+                        if (response === "false") {
                             alert("uname or pass wrong");
                         }
                         else {
@@ -392,7 +472,40 @@
                 userLogin(username, password);
 
                 logged = true;
-            });</script>
+            });
+            
+            $("#searchSubmit").click(function(event){
+                event.preventDefault(); //
+                var search = $("#search").val();
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.56.1:8080/ImgUpload5/webresources/model.image/findImageByTitle/" + search,
+                    dataType: 'xml',
+                    success: function (response) {
+                        var searchResult = $.xml2json(response).image;
+                        if(searchResult){
+                            numOfPage = findNumOfPage(searchResult);
+                            retrieveImgsByPage(0,searchResult);
+                        $("#gallery-pagination").twbsPagination({
+                            totalPages: numOfPage,
+                            visiblePages: 3,
+                            hrefVariable: '{{pageNumber}}',
+                            onPageClick: function (event, page) {
+                                retrieveImgsByPage(page,searchResult);
+                            }
+                        });
+                        }else{
+                            alert("Image not found");
+                        }
+                        //console.log(searchResult);
+                    },
+                    error: function(res){
+                        console.log(res);
+                    }
+                });                
+            });
+            
+                    </script>
     </body>
 
 </html>

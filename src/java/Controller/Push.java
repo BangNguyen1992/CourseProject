@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import javax.naming.InitialContext;
-import javax.servlet.http.Part;
 import javax.transaction.UserTransaction;
+import java.lang.String;
 
 
 /**
@@ -74,28 +74,33 @@ public class Push extends HttpServlet {
         
         try {
             request.getPart("file").write(request.getPart("file").getSubmittedFileName());
-            out.println(request.getPart("file").getSubmittedFileName() + " File uploaded successfully!");           
+            out.println(request.getPart("file").getSubmittedFileName() + " File uploaded successfully! User "+request.getSession().getAttribute("userid"));           
         
             // In database, store just the getSubmittedFileName
             emf = Persistence.createEntityManagerFactory("ImgUpload5PU");
             
             try {
-
-                //Users user = (Users)em.createNamedQuery("Users.findById").setParameter("id", 1).getSingleResult();
-                Image img = new Image(request.getPart("file").getSubmittedFileName(),"desc", new Date(), (int)request.getPart("file").getSize());
-                Tag tag = new Tag();
-                //out.println(user.getUsername() + "<br>");
-                out.println(img.getPath() + "<br>");
+                
+               
+                Image img = new Image(request.getPart("file").getSubmittedFileName(), request.getParameter("description") , new Date(), (int)request.getPart("file").getSize());
+                
+               
+                //out.println(user.getUsername() + "<br>");                
                 UserTransaction transaction = (UserTransaction)new InitialContext().lookup("java:comp/UserTransaction");
                 
                 transaction.begin();
                 em = emf.createEntityManager();
+                Users user =em.find(Users.class,request.getSession().getAttribute("userid"));
+                
+                Tag tag = new Tag(request.getParameter("tagName"), user, img);
                 //em.getTransaction().begin();
+                //em.persist(u);
                 em.persist(img);
+                em.persist(tag);
                 //em.getTransaction().commit();
                 transaction.commit();
                 
-                out.println("DONE");
+                //out.println("DONE");
                 
                 
             out.println("<!DOCTYPE html>");
@@ -104,6 +109,9 @@ public class Push extends HttpServlet {
                         
             out.println("</head>");
             out.println("<body>");
+            out.println(img.getImgid() + "<br>");
+            out.println(img.getPath() + "<br>");
+            out.println(img.getDescription() + "<br>");
             out.println("<img src=" + '"' + link + request.getPart("file").getSubmittedFileName() + '"' + "height=500px width=auto" + ">");
             out.println("</body>");
             out.println("</html>");

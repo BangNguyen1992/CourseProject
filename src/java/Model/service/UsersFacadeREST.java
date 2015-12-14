@@ -6,12 +6,12 @@
 package Model.service;
 
 import Model.Users;
-import static java.lang.System.out;
 import java.util.List;
-import java.io.Serializable;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -21,6 +21,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -83,7 +84,7 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
     }
 
     
-    
+    @Context private HttpServletRequest request;
     @GET
     //@Override
     //@Produces({"application/xml", "application/json"})
@@ -94,6 +95,9 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
         this.userList = em.createNamedQuery("Users.findAll").getResultList();
         for (Users u : this.userList) {
             if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                HttpSession session =request.getSession(true);
+                session.setAttribute("userid",u.getId());
+                session.setAttribute("user", username);
                 return "User No: " + u.getId() +" with Username: "+ u.getUsername() +" has logged in";
             }
         }
