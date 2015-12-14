@@ -32,13 +32,13 @@ import javax.ws.rs.core.Response;
 @Stateless
 @Path("model.users")
 
-
 public class UsersFacadeREST extends AbstractFacade<Users> {
+
     @PersistenceContext(unitName = "ImgUpload5PU")
-   
+
     private EntityManager em;
     private List<Users> userList;
-    
+
     public UsersFacadeREST() {
         super(Users.class);
     }
@@ -48,18 +48,16 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
     public Response create(
             @FormParam("username") String username,
             @FormParam("password") String password) {
-                
+
         Users user = new Users();
         this.userList = em.createNamedQuery("Users.findAll").getResultList();
         user.setUsername(username);
         user.setPassword(password);
-        
+
         super.create(user);
-        //this.userList.add(user);
-        //this.userList = em.createNamedQuery("Users.findAll").getResultList();
         return Response.status(200)
-			.entity("addUser is called, name : " + username + ", pass : " + password)
-			.build();
+                .entity("addUser is called, name : " + username + ", pass : " + password)
+                .build();
     }
 
     @PUT
@@ -83,27 +81,27 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
         return super.find(id);
     }
 
-    
-    @Context private HttpServletRequest request;
+    @Context
+    private HttpServletRequest request;
+
     @GET
     //@Override
     //@Produces({"application/xml", "application/json"})
     @Path("userLogin/{username}/{password}")
     public String userLogin(
-    @PathParam("username") String username,
-    @PathParam("password") String password) {
+            @PathParam("username") String username,
+            @PathParam("password") String password) {
         this.userList = em.createNamedQuery("Users.findAll").getResultList();
         for (Users u : this.userList) {
             if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
-                HttpSession session =request.getSession(true);
-                session.setAttribute("userid",u.getId());
+                HttpSession session = request.getSession(true);
+                session.setAttribute("userid", u.getId());
                 session.setAttribute("user", username);
-                return "User No: " + u.getId() +" with Username: "+ u.getUsername() +" has logged in";
+                return "User No: " + u.getId() + " with Username: " + u.getUsername() + " has logged in";
             }
         }
         return "false";
-        
-        //return super.findAll();
+
     }
 
     @GET
@@ -124,5 +122,5 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }

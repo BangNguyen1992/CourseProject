@@ -6,16 +6,11 @@
 package Model.service;
 
 import Model.Image;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -106,19 +101,18 @@ public class ImageFacadeREST extends AbstractFacade<Image> {
         for (Image i : images) {
             if (i.getPath().endsWith("jpg") || i.getPath().endsWith("png") || i.getPath().endsWith("JPG") || i.getPath().endsWith("PNG")) {
                 viewImages.add("Picture title " + i.getPath() + "<br>" + "<img src=\"http://192.168.56.1/test/" + i.getPath() + "\" height=\"200\" width=\"200\"><br>");
-                viewImages.add("Image ID: "+ i.getImgid() + "<br>");
-                viewImages.add("Date Upload: "+ i.getUploaddate()+"<br>");
-                viewImages.add("Comment: "+ i.getDescription()+"<br>");
+                viewImages.add("Image ID: " + i.getImgid() + "<br>");
+                viewImages.add("Date Upload: " + i.getUploaddate() + "<br>");
+                viewImages.add("Comment: " + i.getDescription() + "<br>");
             } else {
                 viewImages.add("Found upload with title " + i.getPath() + " that is not an image <br>.");
             }
         }
-        
+
         // return the ArrayList with the html tags
         return viewImages.toString();
     }
-    
-    
+
     @GET
     @Path("viewgallery")
     //@Produces("text/html")
@@ -126,7 +120,7 @@ public class ImageFacadeREST extends AbstractFacade<Image> {
     public List<Image> viewGallery() {
         // save the results in a list
         List<Image> image = em.createNamedQuery("Image.findAll").getResultList();
-        
+
         // proceed
         int b;
         b = image.size() - 1;
@@ -140,35 +134,27 @@ public class ImageFacadeREST extends AbstractFacade<Image> {
             a++;
 
         }
-        //            for (Image i: image){
-//            if (i.getPath().endsWith("jpg") || i.getPath().endsWith("png") ||i.getPath().endsWith("JPG")) {
-//                galleryImages.add("Picture title " + i.getPath() + "<br>" + "<img src=\"http://192.168.56.1/test/" + i.getPath() + "\" height=\"200\" width=\"200\"><br>");
-//            } else {
-//                galleryImages.add("Found upload with title " + i.getPath() + " that is not an image <br>.");
-//            }
-//        }
-        Collections.sort(image,new Comparator<Image>(){
-                     public int compare(Image i1,Image i2){
-                            return i2.getImgid() - i1.getImgid();
-                     }});
+        
+        Collections.sort(image, new Comparator<Image>() {
+            public int compare(Image i1, Image i2) {
+                return i2.getImgid() - i1.getImgid();
+            }
+        });
         return image;
 
     }
 
-    
-     @GET
+    @GET
     @Path("findImageByTitle/{path}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public List<Image> findImageByName(
             @PathParam("path") String path) {
-       this.imageQuery = em.createNamedQuery("Image.findByPath").setParameter("path", "%" + path + "%").getResultList();
-                       
+        this.imageQuery = em.createNamedQuery("Image.findByPath").setParameter("path", "%" + path + "%").getResultList();
+
         // return the ArrayList with the html tags
         return this.imageQuery;
     }
-        
-    
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

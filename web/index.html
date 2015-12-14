@@ -27,22 +27,8 @@
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-
         <script type='text/javascript'>
-            //    $(window).load(function(){
-            //     $(function(){
-            //         $(".dropdown-menu").on("click", "li", function(event){
-            //             console.log("You clicked the drop downs", event)
-            //                })
-            //        })
-            //    });
+           
         </script>
 
     </head>
@@ -333,6 +319,8 @@
              var divs = ["#div1", "#div2", "#div3", "#div4", "#div5", "#div6"]; //thumbnail
              var links = ["#link1", "#link2", "#link3", "#link4", "#link5", "#link6"]; //lightbox
             function retrieveImgsByPage(curPage,images){
+                
+                
                 if(images.length>6){
                     var start = 6*(curPage-1);
                     var end = start+6;
@@ -446,7 +434,6 @@
         </script>
         <script>
             function userLogin(username, password) {
-                //alert("In method User " + username + " pass " + password);
                 $.ajax({
                     type: "GET",
                     url: "http://192.168.56.1:8080/ImgUpload5/webresources/model.users/userLogin/" + username + "/" + password,
@@ -459,8 +446,7 @@
                             alert("User: " + username + " has logged in.");
                             localStorage.setItem('loggedin', true);
                             localStorage.setItem('user', response);
-                            //$('#logInMod').modal('hide');
-                        }
+                             }
                     }
                 });
             }
@@ -468,7 +454,6 @@
             $('#logincheck').click(function () {
                 username = $("#username").val();
                 password = $("#password").val();
-                //alert("Username " + username + " password " + password);
                 userLogin(username, password);
 
                 logged = true;
@@ -483,6 +468,7 @@
                     dataType: 'xml',
                     success: function (response) {
                         var searchResult = $.xml2json(response).image;
+                        console.log(searchResult);
                         if(searchResult){
                             numOfPage = findNumOfPage(searchResult);
                             retrieveImgsByPage(0,searchResult);
@@ -497,7 +483,7 @@
                         }else{
                             alert("Image not found");
                         }
-                        //console.log(searchResult);
+                        
                     },
                     error: function(res){
                         console.log(res);
